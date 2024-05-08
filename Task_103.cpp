@@ -13,8 +13,8 @@ bool windowisrunning=false;
 
 int centerX = SCREEN_WIDTH/2;
 int centerY = SCREEN_HEIGHT/2;
-int Radius = 50;
-int Speed = 5;
+int Radius = 10;
+int Speed = 1;
 
 bool initialization(){
     if(SDL_Init(SDL_INIT_VIDEO)<0){
@@ -56,8 +56,13 @@ void drawCircle(int x , int y , int r){
     return ;
 }
 
-
-void moveCircle(SDL_Event &e){
+void moveCircle(){
+    centerX +=Speed;
+    if(centerX == SCREEN_WIDTH){
+        centerX = 0;
+    }
+}
+/*void moveCircle(SDL_Event &e){
     if(e.type == SDL_KEYDOWN){
         switch(e.key.keysym.sym){
             case SDLK_RIGHT: 
@@ -78,7 +83,7 @@ void moveCircle(SDL_Event &e){
     }
 
     return;
-}
+}*/
 
 void close(){
     SDL_DestroyRenderer(renderer);
@@ -101,7 +106,7 @@ int main(int argc, char* argv[]){
                 quit = true;
             }
 
-            moveCircle(e);
+            
         }
 
         SDL_SetRenderDrawColor(renderer , 255 , 255 , 255 ,255);
@@ -109,6 +114,7 @@ int main(int argc, char* argv[]){
 
         SDL_SetRenderDrawColor(renderer , 0 , 0 , 0 ,255);
         drawCircle(centerX , centerY , Radius);
+        moveCircle();
         SDL_RenderPresent(renderer);
 
     }
