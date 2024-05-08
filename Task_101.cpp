@@ -51,17 +51,40 @@ void drawCircle(int x , int y , int r){
     return ;
 }
 
+void close(){
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(Window);
+    Window = nullptr;
+    renderer = nullptr;
+
+    SDL_Quit();
+}
+
 int main(int argc, char* argv[]){
+    
     windowisrunning = initialization();
 
-    SDL_SetRenderDrawColor(renderer , 255 , 255 , 255 ,255);
-    SDL_RenderClear(renderer);
+    bool quit = false;
+    SDL_Event e;
+    while(!quit){
+        while(SDL_PollEvent(&e)!=0){
+            if(e.type == SDL_QUIT){
+                quit = true;
+            }
+        }
 
-    SDL_SetRenderDrawColor(renderer , 0 , 0 , 0 ,255);
-    drawCircle(SCREEN_WIDTH/2 , SCREEN_HEIGHT/2 , 150);
-    SDL_RenderPresent(renderer);
+        SDL_SetRenderDrawColor(renderer , 255 , 255 , 255 ,255);
+        SDL_RenderClear(renderer);
 
-    SDL_Delay(10000);
+        SDL_SetRenderDrawColor(renderer , 0 , 0 , 0 ,255);
+        drawCircle(SCREEN_WIDTH/2 , SCREEN_HEIGHT/2 , 150);
+        SDL_RenderPresent(renderer);
+
+    }
+
+    
+
+    close();
 
     return 0;
 }
