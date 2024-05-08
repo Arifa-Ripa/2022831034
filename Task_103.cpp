@@ -13,6 +13,10 @@ bool windowisrunning=false;
 
 int centerX = SCREEN_WIDTH/2;
 int centerY = SCREEN_HEIGHT/2;
+
+int center2X = SCREEN_WIDTH/2;
+int center2Y = 0;
+
 int Radius = 10;
 int Speed = 1;
 
@@ -56,34 +60,46 @@ void drawCircle(int x , int y , int r){
     return ;
 }
 
-void moveCircle(){
+void moveCircle1(){
     centerX +=Speed;
     if(centerX == SCREEN_WIDTH){
         centerX = 0;
     }
 }
-/*void moveCircle(SDL_Event &e){
+void moveCircle2(SDL_Event &e){
     if(e.type == SDL_KEYDOWN){
         switch(e.key.keysym.sym){
             case SDLK_RIGHT: 
-                if(centerX+Speed+Radius<=SCREEN_WIDTH){
-                    centerX+=Speed;
+                if(center2X+Speed+Radius<=SCREEN_WIDTH){
+                    center2X+=Speed;
                 }
                 break;
             
             case SDLK_LEFT: 
-                if(centerX-Speed -Radius>=0){
-                    centerX-=Speed;
+                if(center2X-Speed -Radius>=0){
+                    center2X-=Speed;
+                }
+                break;
+
+            case SDLK_UP:
+                if(center2Y-Speed-Radius>=0){
+                    center2Y-=Speed;
                 }
                 break;
             
+            case SDLK_DOWN: 
+                if(center2Y+Speed+Radius<=SCREEN_HEIGHT){
+                    center2Y+=Speed;
+                }
+                break;
+
             default :
                 break;
         }
     }
 
     return;
-}*/
+}
 
 void close(){
     SDL_DestroyRenderer(renderer);
@@ -105,7 +121,7 @@ int main(int argc, char* argv[]){
             if(e.type == SDL_QUIT){
                 quit = true;
             }
-
+            moveCircle2(e);
             
         }
 
@@ -114,7 +130,10 @@ int main(int argc, char* argv[]){
 
         SDL_SetRenderDrawColor(renderer , 0 , 0 , 0 ,255);
         drawCircle(centerX , centerY , Radius);
-        moveCircle();
+        moveCircle1();
+        SDL_SetRenderDrawColor(renderer , 0 , 0 , 0 ,255);
+        drawCircle(center2X , center2Y , Radius);
+       
         SDL_RenderPresent(renderer);
 
     }
