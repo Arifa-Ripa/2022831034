@@ -8,8 +8,8 @@ SDL_Renderer *renderer = nullptr;
 
 bool windowisrunning=false;
 
-#define SCREEN_HEIGHT 500
-#define SCREEN_WIDTH  500
+#define SCREEN_HEIGHT 400
+#define SCREEN_WIDTH  720
 
 int centerX = SCREEN_WIDTH/2;
 int centerY = SCREEN_HEIGHT/2;
@@ -25,7 +25,7 @@ bool initialization(){
         cout<<"SDL Failed To Initialize! SDL Error :"<<SDL_GetError()<<endl;
         return false;
     }
-    Window = SDL_CreateWindow ("Move Circle", SDL_WINDOWPOS_UNDEFINED , SDL_WINDOWPOS_UNDEFINED , SCREEN_HEIGHT , SCREEN_WIDTH , SDL_WINDOW_SHOWN);
+    Window = SDL_CreateWindow ("Circle Collision", SDL_WINDOWPOS_UNDEFINED , SDL_WINDOWPOS_UNDEFINED , SCREEN_WIDTH , SCREEN_HEIGHT , SDL_WINDOW_SHOWN);
 
     if(!Window){
         cout<<"Failed To Open Window! SDL Error :"<<SDL_GetError()<<endl;
@@ -101,6 +101,15 @@ void moveCircle2(SDL_Event &e){
     return;
 }
 
+bool checkcollision(){
+    int x=centerX - center2X;
+    int y=centerY - center2Y;
+    int d=x*x + y*y;
+    int r=(2*Radius)*(2*Radius);
+
+    return d<=r;
+}
+
 void close(){
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(Window);
@@ -124,8 +133,14 @@ int main(int argc, char* argv[]){
             moveCircle2(e);
             
         }
+        if(checkcollision()){
+            SDL_SetRenderDrawColor(renderer , 255 , 0 , 0 ,255);
+        }
+        else {
+            SDL_SetRenderDrawColor(renderer , 255 , 255 , 255 ,255);
+        }
 
-        SDL_SetRenderDrawColor(renderer , 255 , 255 , 255 ,255);
+        
         SDL_RenderClear(renderer);
 
         SDL_SetRenderDrawColor(renderer , 0 , 0 , 0 ,255);
