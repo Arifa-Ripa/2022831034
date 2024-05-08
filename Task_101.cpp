@@ -34,6 +34,23 @@ bool initialization(){
     return true;
 }
 
+
+void drawCircle(int x , int y , int r){
+    int centerx = x;
+    int centery = y;
+    int radius = r;
+
+    for(int dx = -r ; dx <= r ; dx++){
+        for(int dy = -r ; dy <= r ; dy++){
+            if(dx*dx + dy*dy <= r*r){
+                SDL_RenderDrawPoint(renderer , centerx+dx , centery+dy);
+            }
+        }
+    }
+
+    return ;
+}
+
 int main(int argc, char* argv[]){
     windowisrunning = initialization();
 
@@ -41,6 +58,7 @@ int main(int argc, char* argv[]){
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer , 0 , 0 , 0 ,255);
+    drawCircle(SCREEN_WIDTH/2 , SCREEN_HEIGHT/2 , 150);
     SDL_RenderPresent(renderer);
 
     SDL_Delay(10000);
