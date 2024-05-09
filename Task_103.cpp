@@ -65,6 +65,7 @@ void moveCircle1(){
     if(centerX == SCREEN_WIDTH){
         centerX = 0;
     }
+    SDL_Delay(10);
 }
 void moveCircle2(SDL_Event &e){
     if(e.type == SDL_KEYDOWN){
